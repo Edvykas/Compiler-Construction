@@ -6,8 +6,38 @@
 #define OBERON0C_PARSER_H
 
 
-#include "../scanner/Scanner.h"
+#include "Scanner.h"
 #include "ast/Node.h"
+
+#include <ast\Module\Module.h>
+
+#include <ast\Declaration\Declaration.h>
+#include <ast\Declaration\ConstDeclaration.h>
+#include <ast\Declaration\TypeDeclaration.h>
+#include <ast\Declaration\VarDeclaration.h>
+#include <ast\Declaration\ProcedureDeclaration.h>
+
+#include <ast\Expression\Expression.h>
+#include <ast\Expression\SimpleExpression.h>
+#include <ast\Expression\Term.h>
+#include <ast\Expression\Factor.h>
+
+#include <ast\Type\Type.h>
+#include <ast\Type\ArrayType.h>
+#include <ast\Type\RecordType.h>
+#include <ast\Type\FieldList.h>
+
+#include <ast\Procedure\ProcedureHeading.h>
+#include <ast\Procedure\ProcedureBody.h>
+#include <ast\Procedure\FormalParameter.h>
+
+#include <ast\Statement\Statement.h>
+#include <ast\Statement\AssignmentStatement.h>
+#include <ast\Statement\ProcedureCallStatement.h>
+#include <ast\Statement\IfStatement.h>
+#include <ast\Statement\WhileStatement.h>
+
+#include <ast\Selector\Selector.h>
 
 class Parser
 {
@@ -15,36 +45,37 @@ class Parser
 private:
     Scanner *scanner_;
     Logger *logger_;
+    const Token* token_;
 
     const std::string ident();
 
-    const Node* module();
-    const Node* declarations();
-    const Node* const_declarations();
-    const Node* type_declarations();
-    const Node* var_declarations();
-    const Node* procedure_declaration();
-    const Node* expression();
-    const Node* simple_expression();
-    const Node* term();
-    const Node* factor();
-    const Node* type();
-    const Node* array_type();
-    const Node* record_type();
-    const Node* field_list();
-    const Node* ident_list();
-    const Node* procedure_heading();
-    const Node* procedure_body();
-    const Node* formal_parameters();
-    const Node* fp_section();
-    const Node* statement_sequence();
-    const Node* statement();
-    const Node* assignment();
-    const Node* procedure_call();
-    const Node* if_statement();
-    const Node* while_statement();
-    const Node* actual_parameters();
-    const Node* selector();
+    const Module* module();
+    const std::vector<const Declaration*> declarations();
+    const std::vector<const ConstDeclaration*> const_declarations();
+    const std::vector<const TypeDeclaration*> type_declarations();
+    const std::vector<const VarDeclaration*> var_declarations();
+    const ProcedureDeclaration* procedure_declaration();
+    const Expression* expression();
+    const SimpleExpression* simple_expression();
+    const Term* term();
+    const Factor* factor();
+    const Type* type();
+    const ArrayType* array_type();
+    const RecordType* record_type();
+    const FieldList* field_list();
+    const std::vector<const std::string> ident_list();
+    const ProcedureHeading* procedure_heading();
+    const ProcedureBody* procedure_body();
+    const std::vector<const FormalParameter*> formal_parameters();
+    const FormalParameter* fp_section();
+    const std::vector<const Statement*> statement_sequence();
+    const Statement* statement();
+    const AssignmentStatement* assignment();
+    const ProcedureCallStatement* procedure_call();
+    const IfStatement* if_statement();
+    const WhileStatement* while_statement();
+    const std::vector<const Expression*> actual_parameters();
+    const std::vector<const Selector*> selector();
 
 public:
     explicit Parser(Scanner *scanner, Logger *logger);
